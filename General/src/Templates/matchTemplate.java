@@ -30,11 +30,11 @@ public class matchTemplate {
 	
 	public static void run(String [][] list) {
 		//Find out which row
-		int row = (int) Math.round(Math.random()*numOfRows);
+		int row = (int) Math.random()*numOfRows;
 		
 		//Find out which column
 		int ACol = 0;
-		int QCol = (int) Math.round(Math.random());
+		int QCol = (int) Math.random();
 		
 		if (QCol == 0) {
 			ACol = 1;
@@ -51,7 +51,11 @@ public class matchTemplate {
 		//Multiple Choice
 		if (numOfChoices != 0) {
 			ArrayList<Integer> multipleChoices = new ArrayList<Integer>();
-			int posOfAns = (int) Math.round((Math.random()*numOfChoices));
+			int posOfAns = (int) (Math.random()*numOfChoices);
+			
+			if (posOfAns == numOfChoices) {
+				System.out.println("Going Out of Bounds!!!!");
+			}
 			
 			/* Goal: Store all randomly generated numbers
 			 * and index of the answer in an array list 
@@ -66,20 +70,24 @@ public class matchTemplate {
 			 * 
 			 */
 			for (int i = 0; i < numOfChoices; i++) {
-				int randWrong = (int) Math.round(Math.random()*numOfRows);
+				int randWrong = (int) Math.random()*numOfRows;
 				
 				while (randWrong == row) {
-					randWrong = (int) Math.round(Math.random()*numOfRows);
-					System.out.println("Picking Another Random");
+					randWrong = (int) Math.random()*numOfRows;
+				}
+				
+				for (int n = 0; n < multipleChoices.size(); n++) {
+					while (randWrong == multipleChoices.get(n)) {
+						randWrong = (int) Math.random()*numOfRows;
+					}
 				}
 				
 				if ((posOfAns) == i) {
 					multipleChoices.add(row);
-					i++;
+				}else {
+					multipleChoices.add(randWrong);
 				}
-				multipleChoices.add(randWrong);
 			}
-			
 			System.out.println("Here are your choices: ");
 			for (int i = 0; i < multipleChoices.size(); i++) {
 				System.out.println(letters[i] + ": " + list[multipleChoices.get(i)][ACol]);
@@ -91,7 +99,7 @@ public class matchTemplate {
 		//End of multiple choice code
 		
 		Scanner userInput = new Scanner(System.in);
-		String userAnswer = userInput.next(); 
+		String userAnswer = userInput.next().toUpperCase(); 
 		
 		if (userAnswer.equals(answer)) {
 			System.out.println("Correct! The answer was: " + answer);
