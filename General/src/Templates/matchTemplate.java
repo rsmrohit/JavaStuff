@@ -1,19 +1,27 @@
 package Templates;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class matchTemplate {
 	
 	public static int numOfChoices;
 	public static String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+	public static String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+	public static String[] multichoice;
 	public static int numOfRows;
 	
-	public matchTemplate(int numOfChoices){
-		this.numOfChoices = numOfChoices;
+	public matchTemplate() {
+		this(0, false);
 	}
 	
-	public static void runTest(String[][] list, boolean[] Configs, int numOfIter) {
+	public matchTemplate(int numOfChoices, boolean letters){
+		this.numOfChoices = numOfChoices;
+		this.multichoice = (letters == true ? this.letters : this.numbers);
+	}
+	
+	public static void runTest(String[][] list, int numOfIter) {
 		//Determine Number Of Rows
 		int numbOfRows = 0;
 		
@@ -30,15 +38,13 @@ public class matchTemplate {
 	
 	public static void run(String [][] list) {
 		//Find out which row
-		int row = (int) Math.random()*numOfRows;
+		int row = (int) (Math.random()*numOfRows);
 		
 		//Find out which column
-		int ACol = 0;
-		int QCol = (int) Math.random();
+		Random rand = new Random();
+		int QCol = rand.nextInt(1);
 		
-		if (QCol == 0) {
-			ACol = 1;
-		}
+		int ACol = (QCol == 0 ? 1 : 0);
 		
 		//Set the Question and Answer
 		String question = list[row][QCol];
@@ -53,10 +59,6 @@ public class matchTemplate {
 			ArrayList<Integer> multipleChoices = new ArrayList<Integer>();
 			int posOfAns = (int) (Math.random()*numOfChoices);
 			
-			if (posOfAns == numOfChoices) {
-				System.out.println("Going Out of Bounds!!!!");
-			}
-			
 			/* Goal: Store all randomly generated numbers
 			 * and index of the answer in an array list 
 			 * so it can be read later as an index
@@ -68,17 +70,19 @@ public class matchTemplate {
 			 *  Also if the randomly generated number is the
 			 *  answer's index, pick a different random number
 			 * 
+			 * And if the wrong index is already in the list, 
+			 * pick a different one
 			 */
 			for (int i = 0; i < numOfChoices; i++) {
-				int randWrong = (int) Math.random()*numOfRows;
+				int randWrong = (int) (Math.random()*numOfRows);
 				
 				while (randWrong == row) {
-					randWrong = (int) Math.random()*numOfRows;
+					randWrong = (int) (Math.random()*numOfRows);
 				}
 				
 				for (int n = 0; n < multipleChoices.size(); n++) {
 					while (randWrong == multipleChoices.get(n)) {
-						randWrong = (int) Math.random()*numOfRows;
+						randWrong = (int) (Math.random()*numOfRows);
 					}
 				}
 				
@@ -88,12 +92,14 @@ public class matchTemplate {
 					multipleChoices.add(randWrong);
 				}
 			}
+			
 			System.out.println("Here are your choices: ");
+			
 			for (int i = 0; i < multipleChoices.size(); i++) {
-				System.out.println(letters[i] + ": " + list[multipleChoices.get(i)][ACol]);
+				System.out.println(multichoice[i] + ": " + list[multipleChoices.get(i)][ACol]);
 			}
 			
-			answer = letters[posOfAns];
+			answer = multichoice[posOfAns];
 			
 		}
 		//End of multiple choice code

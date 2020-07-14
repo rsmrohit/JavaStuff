@@ -57,14 +57,10 @@ public class namingElements {
 				
 		};
 		
-		boolean[] Configs = new boolean[1];
-		
-		Configs[0] = true;
-		
-		matchTemplate Match = new matchTemplate(4);
+		matchTemplate Match = new matchTemplate(4, false);
 		
 		while(true) {
-			Match.runTest(elements, Configs, 5);
+			Match.runTest(elements, 5);
 		}
 
 	}
