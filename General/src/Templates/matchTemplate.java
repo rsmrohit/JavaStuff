@@ -73,6 +73,9 @@ public class matchTemplate {
 			 * And if the wrong index is already in the list, 
 			 * pick a different one
 			 */
+			
+			//Hello
+			
 			for (int i = 0; i < numOfChoices; i++) {
 				int randWrong = (int) (Math.random()*numOfRows);
 				
