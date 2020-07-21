@@ -74,8 +74,6 @@ public class matchTemplate {
 			 * pick a different one
 			 */
 			
-			//Hello
-			
 			for (int i = 0; i < numOfChoices; i++) {
 				int randWrong = (int) (Math.random()*numOfRows);
 				
